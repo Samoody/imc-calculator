@@ -1,20 +1,23 @@
 function calcularIMC() {
- let nome = document.getElementById("nome").value;
-nome = nome.charAt(0).toUpperCase() + nome.slice(1);
-  let peso = document.getElementById("peso").value;
-  let altura = document.getElementById("altura").value;
   let resultado = document.getElementById("resultado");
 
-  console.log("Peso:", peso);
-  console.log("Altura:", altura);
+  let nome = document.getElementById("nome").value.trim();
 
-  if (!peso || !altura) {
-    resultado.innerText = "Preencha todos os campos!";
+  if (!nome) {
+    resultado.innerText = "Digite seu nome!";
     resultado.style.color = "white";
     return;
   }
 
-  if (peso <= 0 || altura <= 0) {
+  nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+
+  let peso = Number(document.getElementById("peso").value);
+  let altura = Number(document.getElementById("altura").value);
+
+  console.log("Peso:", peso);
+  console.log("Altura:", altura);
+
+  if (isNaN(peso) || isNaN(altura) || peso <= 0 || altura <= 0) {
     resultado.innerText = "Valores inválidos!";
     resultado.style.color = "white";
     return;
@@ -43,6 +46,7 @@ nome = nome.charAt(0).toUpperCase() + nome.slice(1);
 }
 
 function limpar() {
+  document.getElementById("nome").value = "";
   document.getElementById("peso").value = "";
   document.getElementById("altura").value = "";
   document.getElementById("resultado").innerText = "";
