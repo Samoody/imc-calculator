@@ -36,7 +36,9 @@ resultado.style.color = "blue";
     resultado.style.color = "yellow";
   } else {
     classificacao = "Obesidade";
-    resultado.style.color = "red";
+ resultado.style.color = "#ff4d4d";
+resultado.style.fontSize = "18px";
+resultado.style.fontWeight = "bold";
   }
 
   imc = imc.toFixed(2); // 👈 só aqui no final
