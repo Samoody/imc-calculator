@@ -1,6 +1,6 @@
 # 💻 Calculadora de IMC | JavaScript
 
-Projeto simples desenvolvido com HTML, CSS e JavaScript para calcular o Índice de Massa Corporal (IMC).
+Projeto desenvolvido com foco em prática de lógica de programação e manipulação do DOM.
 
 ## 🚀 Funcionalidades
 
