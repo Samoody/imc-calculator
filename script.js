@@ -1,9 +1,9 @@
-console.log("SCRIPT CARREGOU");
 function calcularIMC() {
+  let nome = document.getElementById("nome")?.value || "Usuário";
   let peso = document.getElementById("peso").value;
   let altura = document.getElementById("altura").value;
   let resultado = document.getElementById("resultado");
-resultado.style.color = "blue";
+
   console.log("Peso:", peso);
   console.log("Altura:", altura);
 
@@ -20,30 +20,29 @@ resultado.style.color = "blue";
   }
 
   let imc = peso / (altura * altura);
-
-  console.log("IMC:", imc);
-
-  let classificacao = "";
+  let mensagem = "";
 
   if (imc < 18.5) {
-    classificacao = "Abaixo do peso";
+    mensagem = "Você está abaixo do peso. Procure um médico para orientação.";
     resultado.style.color = "orange";
   } else if (imc < 25) {
-    classificacao = "Peso normal";
+    mensagem = "Você está com peso normal. Parabéns, continue assim!";
     resultado.style.color = "green";
   } else if (imc < 30) {
-    classificacao = "Sobrepeso";
+    mensagem = "Você está acima do peso. Procure um médico para orientação.";
     resultado.style.color = "yellow";
   } else {
-    classificacao = "Obesidade";
- resultado.style.color = "#ff4d4d";
-resultado.style.fontSize = "18px";
-resultado.style.fontWeight = "bold";
+    mensagem = "Você está obeso. Procure um médico para orientação.";
+    resultado.style.color = "red";
   }
 
-  imc = imc.toFixed(2); // 👈 só aqui no final
+  imc = imc.toFixed(2);
 
-  console.log("Classificação:", classificacao);
+  resultado.innerText = `${nome}, seu IMC é ${imc}. ${mensagem}`;
+}
 
-  resultado.innerText = `Seu IMC é ${imc} (${classificacao})`;
+function limpar() {
+  document.getElementById("peso").value = "";
+  document.getElementById("altura").value = "";
+  document.getElementById("resultado").innerText = "";
 }
