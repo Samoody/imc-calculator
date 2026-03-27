@@ -1,3 +1,4 @@
+console.log("SCRIPT CARREGOU");
 function calcularIMC() {
   let peso = document.getElementById("peso").value;
   let altura = document.getElementById("altura").value;
