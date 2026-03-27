@@ -32,7 +32,7 @@ function calcularIMC() {
     mensagem = "Você está acima do peso. Procure um médico para orientação.";
     resultado.style.color = "yellow";
   } else {
-    mensagem = "Você está obeso. Procure um médico para orientação.";
+    mensagem = "Você está obeso. É recomendado procurar um médico para orientação.";
     resultado.style.color = "red";
   }
 
