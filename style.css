@@ -25,9 +25,13 @@ input {
 button {
   padding: 10px 20px;
   cursor: pointer;
+  
 }
 
 #resultado {
+  #resultado {
+  text-align: center;
+}
   margin-top: 20px;
   font-weight: bold;
   transition: 0.3s;
