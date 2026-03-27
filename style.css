@@ -24,8 +24,6 @@ input {
 
 button {
   padding: 10px 20px;
-  cursor: pointer;
-  padding: 10px 20px;
   margin: 5px;
   cursor: pointer;
   background: #4CAF50;
@@ -37,13 +35,9 @@ button {
 button:hover {
   background: #45a049;
 }
-  
-}
 
 #resultado {
-  #resultado {
   text-align: center;
-}
   margin-top: 20px;
   font-weight: bold;
   transition: 0.3s;
