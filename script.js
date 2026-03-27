@@ -1,5 +1,6 @@
 function calcularIMC() {
-  let nome = document.getElementById("nome")?.value || "Usuário";
+ let nome = document.getElementById("nome").value;
+nome = nome.charAt(0).toUpperCase() + nome.slice(1);
   let peso = document.getElementById("peso").value;
   let altura = document.getElementById("altura").value;
   let resultado = document.getElementById("resultado");
