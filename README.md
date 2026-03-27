@@ -1,4 +1,4 @@
-# 💻 Calculadora de IMC
+# 💻 Calculadora de IMC | JavaScript
 
 Projeto simples desenvolvido com HTML, CSS e JavaScript para calcular o Índice de Massa Corporal (IMC).
 
