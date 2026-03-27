@@ -3,7 +3,7 @@ function calcularIMC() {
   let peso = document.getElementById("peso").value;
   let altura = document.getElementById("altura").value;
   let resultado = document.getElementById("resultado");
-
+resultado.style.color = "blue";
   console.log("Peso:", peso);
   console.log("Altura:", altura);
 
