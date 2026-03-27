@@ -19,7 +19,6 @@ function calcularIMC() {
   }
 
   let imc = peso / (altura * altura);
-  imc = imc.toFixed(2);
 
   console.log("IMC:", imc);
 
@@ -39,13 +38,9 @@ function calcularIMC() {
     resultado.style.color = "red";
   }
 
+  imc = imc.toFixed(2); // 👈 só aqui no final
+
   console.log("Classificação:", classificacao);
 
   resultado.innerText = `Seu IMC é ${imc} (${classificacao})`;
-}
-
-function limpar() {
-  document.getElementById("peso").value = "";
-  document.getElementById("altura").value = "";
-  document.getElementById("resultado").innerText = "";
 }
