@@ -3,6 +3,17 @@ let fazAcademia = "";
 // função dos botões
 function setAcademia(valor) {
   fazAcademia = valor;
+
+  // remove seleção de todos os botões
+  const botoes = document.querySelectorAll(".btn-academia");
+  botoes.forEach(btn => btn.classList.remove("ativo"));
+
+  // adiciona no botão clicado
+  if (valor === "sim") {
+    document.getElementById("btn-sim").classList.add("ativo");
+  } else {
+    document.getElementById("btn-nao").classList.add("ativo");
+  }
 }
 
 function calcularIMC() {
@@ -75,4 +86,8 @@ function limpar() {
   document.getElementById("altura").value = "";
   document.getElementById("resultado").innerText = "";
   fazAcademia = "";
+
+  // remove seleção dos botões
+  const botoes = document.querySelectorAll(".btn-academia");
+  botoes.forEach(btn => btn.classList.remove("ativo"));
 }
