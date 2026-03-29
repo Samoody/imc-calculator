@@ -18,9 +18,16 @@
 
   <div class="container">
     <h1>Calculadora de IMC</h1>
-<input type="text" id="nome" placeholder="Seu nome">
+
+    <input type="text" id="nome" placeholder="Seu nome">
     <input type="number" id="peso" placeholder="Peso (kg) Ex: 70">
     <input type="number" id="altura" placeholder="Altura (m) Ex: 1.75" step="0.01">
+
+    <p>Você faz academia?</p>
+    <button onclick="setAcademia('sim')">Sim</button>
+    <button onclick="setAcademia('nao')">Não</button>
+
+    <br><br>
 
     <button onclick="calcularIMC()">Calcular</button>
     <button onclick="limpar()">Limpar</button>
