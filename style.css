@@ -27,29 +27,36 @@ button {
   padding: 10px 20px;
   margin: 5px;
   cursor: pointer;
-  background: #4CAF50;
   border: none;
   color: white;
   border-radius: 5px;
 }
+
+/* botão normal (calcular/limpar) */
+button:not(.btn-academia) {
+  background: #4CAF50;
+}
+
+button:not(.btn-academia):hover {
+  background: #45a049;
+}
+
+/* botões de academia */
 .btn-academia {
-  padding: 10px;
-  margin: 5px;
-  border: none;
-  cursor: pointer;
   background-color: #ccc;
+  color: black;
   transition: 0.3s;
 }
 
-.btn-academia.ativo {
+.btn-academia.ativo#btn-sim {
   background-color: #4CAF50;
   color: white;
 }
 
-button:hover {
-  background: #45a049;
+.btn-academia.ativo#btn-nao {
+  background-color: #e53935;
+  color: white;
 }
-
 #resultado {
   text-align: center;
   margin-top: 20px;
