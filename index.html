@@ -24,13 +24,15 @@
     <input type="number" id="altura" placeholder="Altura (m) Ex: 1.75" step="0.01">
 
     <p>Você faz academia?</p>
-    <button onclick="setAcademia('sim')">Sim</button>
-    <button onclick="setAcademia('nao')">Não</button>
+
+    <button id="btn-sim" class="btn-academia" onclick="setAcademia('sim')">Sim</button>
+    <button id="btn-nao" class="btn-academia" onclick="setAcademia('nao')">Não</button>
 
     <br><br>
 
-   <button id="btn-sim" class="btn-academia" onclick="setAcademia('sim')">Sim</button>
-<button id="btn-nao" class="btn-academia" onclick="setAcademia('nao')">Não</button>
+    <button onclick="calcularIMC()">Calcular</button>
+    <button onclick="limpar()">Limpar</button>
+
     <p id="resultado"></p>
   </div>
 
