@@ -50,6 +50,20 @@ function mostrarHistorico() {
 
   document.getElementById("resultado").innerHTML = texto;
 }
+function limparHistorico() {
+  if (!confirm("Tem certeza que deseja apagar o histórico?")) return;
+
+  localStorage.removeItem("historicoIMC");
+
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "🗑️ Histórico apagado!";
+  resultado.style.color = "white";
+
+  resultado.classList.remove("mostrar");
+  setTimeout(() => {
+    resultado.classList.add("mostrar");
+  }, 50);
+}
 
 // calcular IMC
 function calcularIMC() {
