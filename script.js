@@ -1,7 +1,7 @@
 let fazAcademia = "";
 
 /* =========================
-   TOAST (mensagem flutuante)
+   TOAST
 ========================= */
 function mostrarToast(msg) {
   const toast = document.getElementById("toast");
@@ -14,13 +14,13 @@ function mostrarToast(msg) {
 }
 
 /* =========================
-   BOTÃO ACADEMIA
+   ACADEMIA
 ========================= */
 function setAcademia(valor) {
   fazAcademia = valor;
 
-  const botoes = document.querySelectorAll(".btn-academia");
-  botoes.forEach(btn => btn.classList.remove("ativo"));
+  document.querySelectorAll(".btn-academia")
+    .forEach(btn => btn.classList.remove("ativo"));
 
   document.getElementById(valor === "sim" ? "btn-sim" : "btn-nao")
     .classList.add("ativo");
@@ -43,28 +43,28 @@ function mostrarErro(msg) {
    HISTÓRICO
 ========================= */
 function salvarHistorico(dados) {
-  let historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  let h = JSON.parse(localStorage.getItem("historicoIMC")) || [];
 
-  historico.push(dados);
+  h.push(dados);
 
-  if (historico.length > 10) historico.shift();
+  if (h.length > 10) h.shift();
 
-  localStorage.setItem("historicoIMC", JSON.stringify(historico));
+  localStorage.setItem("historicoIMC", JSON.stringify(h));
 }
 
 function mostrarHistorico() {
   const resultado = document.getElementById("resultado");
-  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const h = JSON.parse(localStorage.getItem("historicoIMC")) || [];
 
-  if (historico.length === 0) {
-    resultado.innerHTML = "Nenhum histórico ainda.";
+  if (h.length === 0) {
+    resultado.innerHTML = "Nenhum histórico.";
     return;
   }
 
-  let texto = "<h3>📜 Histórico</h3>";
+  let html = "<h3>📜 Histórico</h3>";
 
-  historico.slice().reverse().forEach(item => {
-    texto += `
+  h.slice().reverse().forEach(item => {
+    html += `
       <div style="margin-bottom:10px;">
         <strong>${item.nome}</strong> (${item.idade} anos)<br>
         IMC: ${item.imc}
@@ -72,13 +72,16 @@ function mostrarHistorico() {
     `;
   });
 
-  resultado.innerHTML = texto;
+  resultado.innerHTML = html;
   resultado.style.color = "white";
 
   resultado.classList.remove("mostrar");
   setTimeout(() => resultado.classList.add("mostrar"), 50);
 }
 
+/* =========================
+   LIMPAR HISTÓRICO
+========================= */
 function limparHistorico() {
   if (!confirm("Tem certeza que deseja apagar o histórico?")) return;
 
@@ -91,12 +94,12 @@ function limparHistorico() {
 ========================= */
 function limparTudo() {
   limpar();
-  limparHistorico();
+  localStorage.removeItem("historicoIMC");
   mostrarToast("🧹 Tudo limpo!");
 }
 
 /* =========================
-   CÁLCULO IMC COMPLETO
+   CALCULAR IMC COMPLETO
 ========================= */
 function calcularIMC() {
   const resultado = document.getElementById("resultado");
@@ -122,12 +125,12 @@ function calcularIMC() {
 
   if (imc < 18.5) {
     mensagem = "Você está abaixo do peso.";
-    recomendacao = "⚠️ Considere procurar um nutricionista.";
+    recomendacao = "⚠️ Procure um nutricionista.";
     resultado.style.color = "orange";
 
   } else if (imc < 25) {
-    mensagem = "Você está com peso normal. Parabéns!";
-    recomendacao = "✅ Continue mantendo hábitos saudáveis!";
+    mensagem = "Peso normal. Parabéns!";
+    recomendacao = "✅ Continue assim!";
     resultado.style.color = "green";
 
   } else if (imc < 30) {
@@ -141,28 +144,28 @@ function calcularIMC() {
     resultado.style.color = "red";
   }
 
-  const academiaMsg = fazAcademia === "sim"
-    ? "💪 Continue assim! Isso faz muita diferença."
-    : "🏃‍♂️ Começar academia pode melhorar sua saúde.";
+  /* academia */
+  let academiaMsg = fazAcademia === "sim"
+    ? "💪 Continue assim!"
+    : "🏃‍♂️ Começar academia pode ajudar muito!";
 
-  let idadeMsg = "";
-  if (idade < 18) {
-    idadeMsg = "👶 Acompanhamento com responsável é importante.";
-  } else if (idade < 40) {
-    idadeMsg = "🧑 Boa fase para cuidar da saúde.";
-  } else {
-    idadeMsg = "🧓 Faça check-ups regularmente.";
-  }
+  /* idade */
+  let idadeMsg = idade < 18
+    ? "👶 Acompanhamento recomendado."
+    : idade < 40
+    ? "🧑 Boa fase para cuidar da saúde."
+    : "🧓 Faça check-ups regularmente.";
 
-  const diff = peso - pesoIdeal;
+  /* peso ideal diferença */
+  let diff = peso - pesoIdeal;
   let pesoMsg = "";
 
   if (Math.abs(diff) < 1) {
-    pesoMsg = "🎯 Você já está no peso ideal!";
+    pesoMsg = "🎯 Você está no peso ideal!";
   } else if (diff > 0) {
-    pesoMsg = `📉 Você precisa perder ${diff.toFixed(1)} kg.`;
+    pesoMsg = `📉 Precisa perder ${diff.toFixed(1)} kg.`;
   } else {
-    pesoMsg = `📈 Você precisa ganhar ${Math.abs(diff).toFixed(1)} kg.`;
+    pesoMsg = `📈 Precisa ganhar ${Math.abs(diff).toFixed(1)} kg.`;
   }
 
   resultado.innerHTML = `
@@ -171,12 +174,15 @@ function calcularIMC() {
     ${mensagem}<br>
     ${recomendacao}<br><br>
 
-    📊 Peso ideal: <strong>${pesoIdeal.toFixed(1)} kg</strong><br>
+    📊 Peso ideal: ${pesoIdeal.toFixed(1)} kg<br>
     ${pesoMsg}<br><br>
 
     ${academiaMsg}<br>
     ${idadeMsg}
   `;
+
+  resultado.classList.remove("mostrar");
+  setTimeout(() => resultado.classList.add("mostrar"), 50);
 
   salvarHistorico({
     nome,
@@ -186,9 +192,6 @@ function calcularIMC() {
     imc: imc.toFixed(2)
   });
 
-  resultado.classList.remove("mostrar");
-  setTimeout(() => resultado.classList.add("mostrar"), 50);
-
   mostrarToast("✅ Calculado com sucesso!");
 }
 
@@ -196,13 +199,14 @@ function calcularIMC() {
    LIMPAR CAMPOS
 ========================= */
 function limpar() {
-  document.getElementById("nome").value = "";
-  document.getElementById("idade").value = "";
-  document.getElementById("peso").value = "";
-  document.getElementById("altura").value = "";
+  ["nome","idade","peso","altura"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
 
   const resultado = document.getElementById("resultado");
+
   resultado.innerHTML = "";
+  resultado.style.color = "white";
   resultado.classList.remove("mostrar");
 
   fazAcademia = "";
