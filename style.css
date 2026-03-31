@@ -1,6 +1,13 @@
-body {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   font-family: Arial;
-  background: #121212;
+}
+
+/* fundo */
+body {
+  background: linear-gradient(135deg, #121212, #1a1a1a);
   color: white;
   display: flex;
   justify-content: center;
@@ -8,59 +15,126 @@ body {
   height: 100vh;
 }
 
+/* container */
 .container {
   background: #1e1e1e;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+  width: 350px;
+  animation: fadeIn 0.5s ease;
 }
 
+/* inputs */
 input {
   display: block;
   margin: 10px auto;
   padding: 10px;
-  width: 200px;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
+  width: 100%;
   border: none;
+  border-radius: 8px;
+  background: #2a2a2a;
   color: white;
-  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
 }
 
-/* botão normal (calcular/limpar) */
+input:focus {
+  background: #333;
+  box-shadow: 0 0 5px #4CAF50;
+}
+
+/* botões */
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* botões principais */
 button:not(.btn-academia) {
   background: #4CAF50;
 }
 
-button:not(.btn-academia):hover {
-  background: #45a049;
+/* academia */
+.botoes-academia {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-/* botões de academia */
 .btn-academia {
-  background-color: #ccc;
+  width: 100px;
+  background: #ccc;
   color: black;
-  transition: 0.3s;
+  font-weight: bold;
 }
 
 .btn-academia.ativo#btn-sim {
-  background-color: #4CAF50;
+  background: #4CAF50;
   color: white;
 }
 
 .btn-academia.ativo#btn-nao {
-  background-color: #e53935;
+  background: #e53935;
   color: white;
 }
+
+/* botões principais */
+.botoes-principais {
+  display: flex;
+  flex-direction: column;
+}
+
+/* resultado */
 #resultado {
-  text-align: center;
   margin-top: 20px;
-  font-weight: bold;
+  font-size: 15px;
+  line-height: 1.6;
+
+  opacity: 0;
+  transform: translateY(10px);
   transition: 0.3s;
-  font-size: 18px;
+}
+
+#resultado.mostrar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* animação */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVO */
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .btn-academia {
+    width: 48%;
+  }
 }
