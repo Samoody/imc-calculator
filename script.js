@@ -1,14 +1,12 @@
 let fazAcademia = "";
 
-// função dos botões
+// botão sim/não
 function setAcademia(valor) {
   fazAcademia = valor;
 
-  // remove seleção de todos os botões
   const botoes = document.querySelectorAll(".btn-academia");
   botoes.forEach(btn => btn.classList.remove("ativo"));
 
-  // adiciona no botão clicado
   if (valor === "sim") {
     document.getElementById("btn-sim").classList.add("ativo");
   } else {
@@ -16,78 +14,140 @@ function setAcademia(valor) {
   }
 }
 
-function calcularIMC() {
-  let resultado = document.getElementById("resultado");
+// erro padrão
+function mostrarErro(msg) {
+  const resultado = document.getElementById("resultado");
+  resultado.innerText = msg;
+  resultado.style.color = "white";
+}
 
-  let nome = document.getElementById("nome").value.trim();
+// salvar histórico
+function salvarHistorico(dados) {
+  let historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  historico.push(dados);
+  localStorage.setItem("historicoIMC", JSON.stringify(historico));
+}
 
-  if (!nome) {
-    resultado.innerText = "Digite seu nome!";
-    resultado.style.color = "white";
+// mostrar histórico
+function mostrarHistorico() {
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+
+  if (historico.length === 0) {
+    document.getElementById("resultado").innerHTML = "Nenhum histórico ainda.";
     return;
   }
+
+  let texto = "<h3>📜 Histórico</h3>";
+
+  historico.reverse().forEach(item => {
+    texto += `
+      <div style="margin-bottom:10px;">
+        <strong>${item.nome}</strong> (${item.idade} anos)<br>
+        IMC: ${item.imc}
+      </div>
+    `;
+  });
+
+  document.getElementById("resultado").innerHTML = texto;
+}
+
+// calcular IMC
+function calcularIMC() {
+  const resultado = document.getElementById("resultado");
+
+  let nome = document.getElementById("nome").value.trim();
+  const idade = parseInt(document.getElementById("idade").value);
+  const peso = parseFloat(document.getElementById("peso").value);
+  const altura = parseFloat(document.getElementById("altura").value);
+
+  if (!nome) return mostrarErro("Digite seu nome!");
+  if (!idade || idade <= 0) return mostrarErro("Digite uma idade válida!");
+  if (!peso || peso <= 0) return mostrarErro("Digite um peso válido!");
+  if (!altura || altura <= 0) return mostrarErro("Digite uma altura válida!");
+  if (fazAcademia === "") return mostrarErro("Escolha se faz academia!");
 
   nome = nome.charAt(0).toUpperCase() + nome.slice(1);
 
-  let peso = Number(document.getElementById("peso").value);
-  let altura = Number(document.getElementById("altura").value);
-
-  if (isNaN(peso) || isNaN(altura) || peso <= 0 || altura <= 0) {
-    resultado.innerText = "Valores inválidos!";
-    resultado.style.color = "white";
-    return;
-  }
-
-  if (fazAcademia === "") {
-    resultado.innerText = "Escolha se você faz academia!";
-    resultado.style.color = "white";
-    return;
-  }
-
-  let imc = peso / (altura * altura);
-  let pesoIdeal = 22 * (altura * altura);
+  const imc = peso / (altura * altura);
+  const pesoIdeal = 22 * (altura * altura);
 
   let mensagem = "";
+  let recomendacao = "";
 
   if (imc < 18.5) {
     mensagem = "Você está abaixo do peso.";
+    recomendacao = "⚠️ Procure um nutricionista.";
     resultado.style.color = "orange";
   } else if (imc < 25) {
-    mensagem = "Você está com peso normal. Parabéns!";
+    mensagem = "Peso normal. Parabéns!";
+    recomendacao = "✅ Continue assim!";
     resultado.style.color = "green";
   } else if (imc < 30) {
     mensagem = "Você está acima do peso.";
+    recomendacao = "⚠️ Procure um médico ou nutricionista.";
     resultado.style.color = "yellow";
   } else {
     mensagem = "Você está obeso.";
+    recomendacao = "🚨 Procure um médico.";
     resultado.style.color = "red";
   }
 
-  let extra = "";
+  // academia
+  let academiaMsg = fazAcademia === "sim"
+    ? "💪 Continue assim!"
+    : "🏃‍♂️ Começar academia pode ajudar muito!";
 
-  if (fazAcademia === "sim") {
-    extra = "💪 Continue firme na academia!";
+  // idade
+  let idadeMsg = idade < 18
+    ? "👶 Acompanhamento recomendado."
+    : idade < 40
+    ? "🧑 Boa fase para cuidar da saúde."
+    : "🧓 Faça check-ups regularmente.";
+
+  // diferença peso
+  let diff = peso - pesoIdeal;
+  let pesoMsg = "";
+
+  if (Math.abs(diff) < 1) {
+    pesoMsg = "🎯 Você está no peso ideal!";
+  } else if (diff > 0) {
+    pesoMsg = `📉 Precisa perder ${diff.toFixed(1)} kg.`;
   } else {
-    extra = "🏃‍♂️ Que tal começar academia?";
+    pesoMsg = `📈 Precisa ganhar ${Math.abs(diff).toFixed(1)} kg.`;
   }
 
-  imc = imc.toFixed(2);
-  pesoIdeal = pesoIdeal.toFixed(1);
+  resultado.innerHTML = `
+    <strong>${nome}</strong>, seu IMC é ${imc.toFixed(2)}.<br><br>
+    ${mensagem}<br>
+    ${recomendacao}<br><br>
+    📊 Peso ideal: ${pesoIdeal.toFixed(1)} kg<br>
+    ${pesoMsg}<br><br>
+    ${academiaMsg}<br>
+    ${idadeMsg}
+  `;
 
-  resultado.innerHTML = `${nome}, seu IMC é ${imc}.<br>
-  ${mensagem}<br>
-  Seu peso ideal é aproximadamente ${pesoIdeal} kg.<br>
-  ${extra}`;
+  salvarHistorico({
+    nome,
+    idade,
+    imc: imc.toFixed(2)
+  });
+
+  resultado.classList.remove("mostrar");
+  setTimeout(() => {
+    resultado.classList.add("mostrar");
+  }, 50);
 }
 
+// limpar
 function limpar() {
   document.getElementById("nome").value = "";
+  document.getElementById("idade").value = "";
   document.getElementById("peso").value = "";
   document.getElementById("altura").value = "";
-  document.getElementById("resultado").innerText = "";
+  document.getElementById("resultado").innerHTML = "";
+
   fazAcademia = "";
 
-  // remove seleção dos botões
   const botoes = document.querySelectorAll(".btn-academia");
   botoes.forEach(btn => btn.classList.remove("ativo"));
 }
