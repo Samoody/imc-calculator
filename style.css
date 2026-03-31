@@ -5,7 +5,6 @@
   font-family: Arial;
 }
 
-/* fundo */
 body {
   background: linear-gradient(135deg, #121212, #1a1a1a);
   color: white;
@@ -18,30 +17,26 @@ body {
 /* container */
 .container {
   background: #1e1e1e;
-  padding: 30px;
+  padding: 25px;
   border-radius: 15px;
+  width: 350px;
   text-align: center;
   box-shadow: 0 0 25px rgba(0,0,0,0.8);
-  width: 350px;
-  animation: fadeIn 0.5s ease;
 }
 
 /* inputs */
 input {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
   width: 100%;
+  margin: 8px 0;
+  padding: 10px;
   border: none;
   border-radius: 8px;
   background: #2a2a2a;
   color: white;
-  outline: none;
-  transition: 0.3s;
 }
 
 input:focus {
-  background: #333;
+  outline: none;
   box-shadow: 0 0 5px #4CAF50;
 }
 
@@ -52,6 +47,7 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  background: #4CAF50;
   color: white;
   transition: 0.2s;
 }
@@ -64,23 +60,17 @@ button:active {
   transform: scale(0.95);
 }
 
-/* botões principais */
-button:not(.btn-academia) {
-  background: #4CAF50;
-}
-
 /* academia */
 .botoes-academia {
   display: flex;
-  justify-content: center;
   gap: 10px;
+  justify-content: center;
 }
 
 .btn-academia {
-  width: 100px;
   background: #ccc;
   color: black;
-  font-weight: bold;
+  width: 100px;
 }
 
 .btn-academia.ativo#btn-sim {
@@ -93,18 +83,9 @@ button:not(.btn-academia) {
   color: white;
 }
 
-/* botões principais */
-.botoes-principais {
-  display: flex;
-  flex-direction: column;
-}
-
 /* resultado */
 #resultado {
-  margin-top: 20px;
-  font-size: 15px;
-  line-height: 1.6;
-
+  margin-top: 15px;
   opacity: 0;
   transform: translateY(10px);
   transition: 0.3s;
@@ -115,26 +96,26 @@ button:not(.btn-academia) {
   transform: translateY(0);
 }
 
-/* animação */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* TOAST */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: 0.3s;
 }
 
-/* RESPONSIVO */
+#toast.mostrar {
+  opacity: 1;
+}
+
+/* responsivo */
 @media (max-width: 500px) {
   .container {
     width: 90%;
-    padding: 20px;
-  }
-
-  .btn-academia {
-    width: 48%;
   }
 }
