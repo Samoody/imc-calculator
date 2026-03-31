@@ -1,6 +1,8 @@
 let fazAcademia = "";
 
-/* TOAST */
+/* =========================
+   TOAST (mensagem flutuante)
+========================= */
 function mostrarToast(msg) {
   const toast = document.getElementById("toast");
   toast.innerText = msg;
@@ -11,102 +13,200 @@ function mostrarToast(msg) {
   }, 2000);
 }
 
-/* academia */
+/* =========================
+   BOTÃO ACADEMIA
+========================= */
 function setAcademia(valor) {
   fazAcademia = valor;
 
-  document.querySelectorAll(".btn-academia")
-    .forEach(btn => btn.classList.remove("ativo"));
+  const botoes = document.querySelectorAll(".btn-academia");
+  botoes.forEach(btn => btn.classList.remove("ativo"));
 
   document.getElementById(valor === "sim" ? "btn-sim" : "btn-nao")
     .classList.add("ativo");
 }
 
-/* erro */
+/* =========================
+   ERRO
+========================= */
 function mostrarErro(msg) {
   const resultado = document.getElementById("resultado");
+
   resultado.innerText = msg;
   resultado.style.color = "white";
-  resultado.classList.add("mostrar");
+
+  resultado.classList.remove("mostrar");
+  setTimeout(() => resultado.classList.add("mostrar"), 50);
 }
 
-/* histórico */
+/* =========================
+   HISTÓRICO
+========================= */
 function salvarHistorico(dados) {
-  let h = JSON.parse(localStorage.getItem("historicoIMC")) || [];
-  h.push(dados);
-  if (h.length > 10) h.shift();
-  localStorage.setItem("historicoIMC", JSON.stringify(h));
+  let historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+
+  historico.push(dados);
+
+  if (historico.length > 10) historico.shift();
+
+  localStorage.setItem("historicoIMC", JSON.stringify(historico));
 }
 
 function mostrarHistorico() {
   const resultado = document.getElementById("resultado");
-  const h = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
 
-  if (h.length === 0) {
-    resultado.innerHTML = "Nenhum histórico.";
+  if (historico.length === 0) {
+    resultado.innerHTML = "Nenhum histórico ainda.";
     return;
   }
 
-  let html = "<h3>📜 Histórico</h3>";
+  let texto = "<h3>📜 Histórico</h3>";
 
-  h.slice().reverse().forEach(item => {
-    html += `<div><b>${item.nome}</b> - IMC: ${item.imc}</div>`;
+  historico.slice().reverse().forEach(item => {
+    texto += `
+      <div style="margin-bottom:10px;">
+        <strong>${item.nome}</strong> (${item.idade} anos)<br>
+        IMC: ${item.imc}
+      </div>
+    `;
   });
 
-  resultado.innerHTML = html;
-  resultado.classList.add("mostrar");
+  resultado.innerHTML = texto;
+  resultado.style.color = "white";
+
+  resultado.classList.remove("mostrar");
+  setTimeout(() => resultado.classList.add("mostrar"), 50);
 }
 
-/* limpar histórico */
 function limparHistorico() {
+  if (!confirm("Tem certeza que deseja apagar o histórico?")) return;
+
   localStorage.removeItem("historicoIMC");
   mostrarToast("🗑️ Histórico apagado!");
 }
 
-/* limpar tudo */
+/* =========================
+   LIMPAR TUDO
+========================= */
 function limparTudo() {
   limpar();
   limparHistorico();
   mostrarToast("🧹 Tudo limpo!");
 }
 
-/* calcular */
+/* =========================
+   CÁLCULO IMC COMPLETO
+========================= */
 function calcularIMC() {
-  const nome = document.getElementById("nome").value.trim();
+  const resultado = document.getElementById("resultado");
+
+  let nome = document.getElementById("nome").value.trim();
   const idade = parseInt(document.getElementById("idade").value);
   const peso = parseFloat(document.getElementById("peso").value);
   const altura = parseFloat(document.getElementById("altura").value);
-  const resultado = document.getElementById("resultado");
 
-  if (!nome || !idade || !peso || !altura || !fazAcademia) {
-    return mostrarErro("Preencha tudo!");
-  }
+  if (!nome) return mostrarErro("Digite seu nome!");
+  if (!idade || idade <= 0) return mostrarErro("Digite uma idade válida!");
+  if (!peso || peso <= 0) return mostrarErro("Digite um peso válido!");
+  if (!altura || altura <= 0) return mostrarErro("Digite uma altura válida!");
+  if (fazAcademia === "") return mostrarErro("Escolha se faz academia!");
+
+  nome = nome.charAt(0).toUpperCase() + nome.slice(1);
 
   const imc = peso / (altura * altura);
   const pesoIdeal = 22 * (altura * altura);
 
+  let mensagem = "";
+  let recomendacao = "";
+
+  if (imc < 18.5) {
+    mensagem = "Você está abaixo do peso.";
+    recomendacao = "⚠️ Considere procurar um nutricionista.";
+    resultado.style.color = "orange";
+
+  } else if (imc < 25) {
+    mensagem = "Você está com peso normal. Parabéns!";
+    recomendacao = "✅ Continue mantendo hábitos saudáveis!";
+    resultado.style.color = "green";
+
+  } else if (imc < 30) {
+    mensagem = "Você está acima do peso.";
+    recomendacao = "⚠️ Procure um médico ou nutricionista.";
+    resultado.style.color = "yellow";
+
+  } else {
+    mensagem = "Você está obeso.";
+    recomendacao = "🚨 Procure um médico.";
+    resultado.style.color = "red";
+  }
+
+  const academiaMsg = fazAcademia === "sim"
+    ? "💪 Continue assim! Isso faz muita diferença."
+    : "🏃‍♂️ Começar academia pode melhorar sua saúde.";
+
+  let idadeMsg = "";
+  if (idade < 18) {
+    idadeMsg = "👶 Acompanhamento com responsável é importante.";
+  } else if (idade < 40) {
+    idadeMsg = "🧑 Boa fase para cuidar da saúde.";
+  } else {
+    idadeMsg = "🧓 Faça check-ups regularmente.";
+  }
+
+  const diff = peso - pesoIdeal;
+  let pesoMsg = "";
+
+  if (Math.abs(diff) < 1) {
+    pesoMsg = "🎯 Você já está no peso ideal!";
+  } else if (diff > 0) {
+    pesoMsg = `📉 Você precisa perder ${diff.toFixed(1)} kg.`;
+  } else {
+    pesoMsg = `📈 Você precisa ganhar ${Math.abs(diff).toFixed(1)} kg.`;
+  }
+
   resultado.innerHTML = `
-    <b>${nome}</b>, IMC: ${imc.toFixed(2)}<br>
-    Peso ideal: ${pesoIdeal.toFixed(1)} kg
+    <strong>${nome}</strong>, seu IMC é ${imc.toFixed(2)}.<br><br>
+
+    ${mensagem}<br>
+    ${recomendacao}<br><br>
+
+    📊 Peso ideal: <strong>${pesoIdeal.toFixed(1)} kg</strong><br>
+    ${pesoMsg}<br><br>
+
+    ${academiaMsg}<br>
+    ${idadeMsg}
   `;
 
-  resultado.style.color = "white";
-  resultado.classList.add("mostrar");
+  salvarHistorico({
+    nome,
+    idade,
+    peso,
+    altura,
+    imc: imc.toFixed(2)
+  });
 
-  salvarHistorico({ nome, imc: imc.toFixed(2) });
+  resultado.classList.remove("mostrar");
+  setTimeout(() => resultado.classList.add("mostrar"), 50);
+
   mostrarToast("✅ Calculado com sucesso!");
 }
 
-/* limpar campos */
+/* =========================
+   LIMPAR CAMPOS
+========================= */
 function limpar() {
-  ["nome","idade","peso","altura"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
+  document.getElementById("nome").value = "";
+  document.getElementById("idade").value = "";
+  document.getElementById("peso").value = "";
+  document.getElementById("altura").value = "";
 
-  document.getElementById("resultado").innerHTML = "";
-  document.getElementById("resultado").classList.remove("mostrar");
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = "";
+  resultado.classList.remove("mostrar");
 
   fazAcademia = "";
+
   document.querySelectorAll(".btn-academia")
     .forEach(btn => btn.classList.remove("ativo"));
 
