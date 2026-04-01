@@ -8,38 +8,45 @@
 </head>
 
 <body>
+
+<!-- 🎵 ÁUDIO (APENAS UMA VEZ) -->
 <audio id="musica" src="Lets Fight - 2Pac ft. Xzibit.mp3" loop></audio>
-  <div class="container">
-    <h1>Calculadora de IMC</h1>
 
-    <input type="text" id="nome" placeholder="Seu nome">
-    <input type="number" id="idade" placeholder="Idade">
-    <input type="number" id="peso" placeholder="Peso (kg)">
-    <input type="number" id="altura" placeholder="Altura (m)" step="0.01">
+<div class="container">
+  <h1>Calculadora de IMC</h1>
 
-    <p>Você faz academia?</p>
+  <input type="text" id="nome" placeholder="Seu nome">
+  <input type="number" id="idade" placeholder="Idade">
+  <input type="number" id="peso" placeholder="Peso (kg)">
+  <input type="number" id="altura" placeholder="Altura (m)" step="0.01">
 
-    <div class="botoes-academia">
-      <button id="btn-sim" class="btn-academia" onclick="setAcademia('sim')">Sim</button>
-      <button id="btn-nao" class="btn-academia" onclick="setAcademia('nao')">Não</button>
-    </div>
+  <p>Você faz academia?</p>
 
-    <div class="botoes-principais">
-      <button onclick="calcularIMC()">Calcular</button>
-      <button onclick="limpar()">Limpar</button>
-      <button onclick="mostrarHistorico()">Histórico</button>
-      <button onclick="limparTudo()">Limpar Tudo</button>
-    <audio id="musica" src="Lets Fight - 2Pac ft. Xzibit.mp3" loop></audio>
-
-<button onclick="toggleMusica()">🎵 Música</button>
-    </div>
-
-    <div id="resultado"></div>
+  <div class="botoes-academia">
+    <button id="btn-sim" class="btn-academia" onclick="setAcademia('sim')">Sim</button>
+    <button id="btn-nao" class="btn-academia" onclick="setAcademia('nao')">Não</button>
   </div>
 
-  <!-- TOAST -->
-  <div id="toast"></div>
+  <div class="botoes-principais">
+    <button onclick="calcularIMC()">Calcular</button>
+    <button onclick="limpar()">Limpar</button>
+    <button onclick="mostrarHistorico()">Histórico</button>
+    <button onclick="limparTudo()">Limpar Tudo</button>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- 🎵 PLAYER PROFISSIONAL -->
+  <div class="player">
+    <button onclick="toggleMusica()" id="btn-musica">▶️ Tocar música</button>
+
+    <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
+  </div>
+
+  <div id="resultado"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
