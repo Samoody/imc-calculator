@@ -220,10 +220,6 @@ function limpar() {
 /* =========================
    PLAYER DE MÚSICA
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const musica = document.getElementById("musica");
-  if (musica) musica.volume = 0.5;
-});
 function toggleMusica() {
   const musica = document.getElementById("musica");
   const btnMusica = document.getElementById("btn-musica");
@@ -231,7 +227,7 @@ function toggleMusica() {
 
   if (!musica || !btnMusica || !volumeControl) return;
 
-musica.volume = 0.5; = volumeControl.value;
+  musica.volume = volumeControl.value || 0.5;
 
   if (musica.paused) {
     musica.play().then(() => {
