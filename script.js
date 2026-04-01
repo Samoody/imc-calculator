@@ -12,7 +12,7 @@ function mostrarToast(msg) {
     toast.classList.remove("mostrar");
   }, 2000);
 }
-document.getElementById("musica").play();
+
 /* =========================
    ACADEMIA
 ========================= */
@@ -101,7 +101,11 @@ function limparTudo() {
 /* =========================
    CALCULAR IMC COMPLETO
 ========================= */
-function calcularIMC() {
+   function calcularIMC() {
+  const musica = document.getElementById("musica");
+  musica.play();
+
+  const resultado = document.getElementById("resultado");
   const resultado = document.getElementById("resultado");
 
   let nome = document.getElementById("nome").value.trim();
