@@ -36,6 +36,10 @@ Este projeto foi criado para treinar:
 - Organização de código  
 
 ---
+## 📸 Preview
+
+![Preview do projeto](./preview.png)
+---
 
 ## ▶️ Como usar
 
