@@ -112,7 +112,32 @@ button:active {
 #toast.mostrar {
   opacity: 1;
 }
+/* PLAYER DE MÚSICA */
+.player {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
+#btn-musica {
+  background: #ff4d4d;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btn-musica:hover {
+  background: #ff1a1a;
+}
+
+#volume {
+  width: 100%;
+  cursor: pointer;
+}
 /* responsivo */
 @media (max-width: 500px) {
   .container {
