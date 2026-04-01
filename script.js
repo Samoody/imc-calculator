@@ -101,11 +101,10 @@ function limparTudo() {
 /* =========================
    CALCULAR IMC COMPLETO
 ========================= */
-   function calcularIMC() {
+function calcularIMC() {
   const musica = document.getElementById("musica");
-  musica.play();
+  musica.play().catch(() => {}); // evita erro de autoplay
 
-  const resultado = document.getElementById("resultado");
   const resultado = document.getElementById("resultado");
 
   let nome = document.getElementById("nome").value.trim();
@@ -148,19 +147,16 @@ function limparTudo() {
     resultado.style.color = "red";
   }
 
-  /* academia */
   let academiaMsg = fazAcademia === "sim"
     ? "💪 Continue assim!"
     : "🏃‍♂️ Começar academia pode ajudar muito!";
 
-  /* idade */
   let idadeMsg = idade < 18
     ? "👶 Acompanhamento recomendado."
     : idade < 40
     ? "🧑 Boa fase para cuidar da saúde."
     : "🧓 Faça check-ups regularmente.";
 
-  /* peso ideal diferença */
   let diff = peso - pesoIdeal;
   let pesoMsg = "";
 
@@ -219,16 +215,20 @@ function limpar() {
     .forEach(btn => btn.classList.remove("ativo"));
 
   mostrarToast("🧹 Campos limpos!");
-   const musica = document.getElementById("musica");
+}
+
+/* =========================
+   PLAYER DE MÚSICA
+========================= */
+const musica = document.getElementById("musica");
 const btnMusica = document.getElementById("btn-musica");
 const volumeControl = document.getElementById("volume");
 
-// volume inicial
 musica.volume = 0.5;
 
 function toggleMusica() {
   if (musica.paused) {
-    musica.play();
+    musica.play().catch(() => {});
     btnMusica.innerText = "⏸️ Pausar música";
     mostrarToast("🎵 Música ativada!");
   } else {
@@ -238,8 +238,6 @@ function toggleMusica() {
   }
 }
 
-// controle de volume
 volumeControl.addEventListener("input", () => {
   musica.volume = volumeControl.value;
 });
-}
