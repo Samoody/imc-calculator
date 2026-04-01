@@ -112,20 +112,21 @@ function calcularIMC() {
   const peso = parseFloat(document.getElementById("peso").value);
 
   // 🔥 VALIDAÇÃO INTELIGENTE DA ALTURA
-  let alturaInput = document.getElementById("altura").value.trim();
+  const alturaInput = document.getElementById("altura").value.trim();
 
-  // aceita vírgula
-  alturaInput = alturaInput.replace(",", ".");
+// ❌ não tem ponto → BLOQUEIA
+if (!alturaInput.includes(".")) {
+  mostrarErro("⚠️ Por favor, coloque ponto na altura! Ex: 1.78");
+  return;
+}
 
-  // corrige 178 → 1.78
-  if (!alturaInput.includes(".")) {
-    if (alturaInput.length === 3) {
-      alturaInput = alturaInput[0] + "." + alturaInput.slice(1);
-    } else {
-      mostrarErro("⚠️ Use altura no formato 1.78");
-      return;
-    }
-  }
+const altura = parseFloat(alturaInput);
+
+// validação final
+if (!altura || altura <= 0 || altura > 3) {
+  mostrarErro("⚠️ Altura inválida! Use algo como 1.78");
+  return;
+}
 
   const altura = parseFloat(alturaInput);
 
