@@ -220,6 +220,22 @@ function limpar() {
 /* =========================
    PLAYER DE MÚSICA
 ========================= */
+function toggleMusica() {
+  const musica = document.getElementById("musica");
+  const btnMusica = document.getElementById("btn-musica");
+
+  if (!musica || !btnMusica) return;
+
+  if (musica.paused) {
+    musica.play().catch(() => {});
+    btnMusica.innerText = "⏸️ Pausar música";
+    mostrarToast("🎵 Música ativada!");
+  } else {
+    musica.pause();
+    btnMusica.innerText = "▶️ Tocar música";
+    mostrarToast("⏸️ Música pausada!");
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
   const musica = document.getElementById("musica");
   const btnMusica = document.getElementById("btn-musica");
