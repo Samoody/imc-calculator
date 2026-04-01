@@ -219,4 +219,27 @@ function limpar() {
     .forEach(btn => btn.classList.remove("ativo"));
 
   mostrarToast("🧹 Campos limpos!");
+   const musica = document.getElementById("musica");
+const btnMusica = document.getElementById("btn-musica");
+const volumeControl = document.getElementById("volume");
+
+// volume inicial
+musica.volume = 0.5;
+
+function toggleMusica() {
+  if (musica.paused) {
+    musica.play();
+    btnMusica.innerText = "⏸️ Pausar música";
+    mostrarToast("🎵 Música ativada!");
+  } else {
+    musica.pause();
+    btnMusica.innerText = "▶️ Tocar música";
+    mostrarToast("⏸️ Música pausada!");
+  }
+}
+
+// controle de volume
+volumeControl.addEventListener("input", () => {
+  musica.volume = volumeControl.value;
+});
 }
