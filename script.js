@@ -12,7 +12,7 @@ function mostrarToast(msg) {
     toast.classList.remove("mostrar");
   }, 2000);
 }
-
+document.getElementById("musica").play();
 /* =========================
    ACADEMIA
 ========================= */
