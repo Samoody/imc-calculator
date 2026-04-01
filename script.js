@@ -220,24 +220,28 @@ function limpar() {
 /* =========================
    PLAYER DE MÚSICA
 ========================= */
-const musica = document.getElementById("musica");
-const btnMusica = document.getElementById("btn-musica");
-const volumeControl = document.getElementById("volume");
+document.addEventListener("DOMContentLoaded", () => {
+  const musica = document.getElementById("musica");
+  const btnMusica = document.getElementById("btn-musica");
+  const volumeControl = document.getElementById("volume");
 
-musica.volume = 0.5;
+  if (!musica || !btnMusica || !volumeControl) return;
 
-function toggleMusica() {
-  if (musica.paused) {
-    musica.play().catch(() => {});
-    btnMusica.innerText = "⏸️ Pausar música";
-    mostrarToast("🎵 Música ativada!");
-  } else {
-    musica.pause();
-    btnMusica.innerText = "▶️ Tocar música";
-    mostrarToast("⏸️ Música pausada!");
-  }
-}
+  musica.volume = 0.5;
 
-volumeControl.addEventListener("input", () => {
-  musica.volume = volumeControl.value;
+  window.toggleMusica = function () {
+    if (musica.paused) {
+      musica.play().catch(() => {});
+      btnMusica.innerText = "⏸️ Pausar música";
+      mostrarToast("🎵 Música ativada!");
+    } else {
+      musica.pause();
+      btnMusica.innerText = "▶️ Tocar música";
+      mostrarToast("⏸️ Música pausada!");
+    }
+  };
+
+  volumeControl.addEventListener("input", () => {
+    musica.volume = volumeControl.value;
+  });
 });
