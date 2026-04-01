@@ -103,19 +103,41 @@ function limparTudo() {
 ========================= */
 function calcularIMC() {
   const musica = document.getElementById("musica");
-  musica.play().catch(() => {}); // evita erro de autoplay
+  musica.play().catch(() => {});
 
   const resultado = document.getElementById("resultado");
 
   let nome = document.getElementById("nome").value.trim();
   const idade = parseInt(document.getElementById("idade").value);
   const peso = parseFloat(document.getElementById("peso").value);
-  const altura = parseFloat(document.getElementById("altura").value);
+
+  // 🔥 VALIDAÇÃO INTELIGENTE DA ALTURA
+  let alturaInput = document.getElementById("altura").value.trim();
+
+  // aceita vírgula
+  alturaInput = alturaInput.replace(",", ".");
+
+  // corrige 178 → 1.78
+  if (!alturaInput.includes(".")) {
+    if (alturaInput.length === 3) {
+      alturaInput = alturaInput[0] + "." + alturaInput.slice(1);
+    } else {
+      mostrarErro("⚠️ Use altura no formato 1.78");
+      return;
+    }
+  }
+
+  const altura = parseFloat(alturaInput);
+
+  // evita valores absurdos
+  if (!altura || altura <= 0 || altura > 3) {
+    mostrarErro("⚠️ Altura inválida! Use metros (ex: 1.78)");
+    return;
+  }
 
   if (!nome) return mostrarErro("Digite seu nome!");
   if (!idade || idade <= 0) return mostrarErro("Digite uma idade válida!");
   if (!peso || peso <= 0) return mostrarErro("Digite um peso válido!");
-  if (!altura || altura <= 0) return mostrarErro("Digite uma altura válida!");
   if (fazAcademia === "") return mostrarErro("Escolha se faz academia!");
 
   nome = nome.charAt(0).toUpperCase() + nome.slice(1);
@@ -220,7 +242,6 @@ function limpar() {
 /* =========================
    PLAYER DE MÚSICA
 ========================= */
-
 function toggleMusica() {
   const musica = document.getElementById("musica");
   const btnMusica = document.getElementById("btn-musica");
