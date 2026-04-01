@@ -223,41 +223,24 @@ function limpar() {
 function toggleMusica() {
   const musica = document.getElementById("musica");
   const btnMusica = document.getElementById("btn-musica");
+  const volumeControl = document.getElementById("volume");
 
-  if (!musica || !btnMusica) return;
+  if (!musica || !btnMusica || !volumeControl) return;
+
+  musica.volume = volumeControl.value;
 
   if (musica.paused) {
-    musica.play().catch(() => {});
-    btnMusica.innerText = "⏸️ Pausar música";
-    mostrarToast("🎵 Música ativada!");
+    musica.play().then(() => {
+      btnMusica.innerText = "⏸️ Pausar música";
+      mostrarToast("🎵 Música ativada!");
+    }).catch(err => {
+      console.log("Erro:", err);
+      alert("Clique novamente para ativar o áudio 🔊");
+    });
+
   } else {
     musica.pause();
     btnMusica.innerText = "▶️ Tocar música";
     mostrarToast("⏸️ Música pausada!");
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const musica = document.getElementById("musica");
-  const btnMusica = document.getElementById("btn-musica");
-  const volumeControl = document.getElementById("volume");
-
-  if (!musica || !btnMusica || !volumeControl) return;
-
-  musica.volume = 0.5;
-
-  window.toggleMusica = function () {
-    if (musica.paused) {
-      musica.play().catch(() => {});
-      btnMusica.innerText = "⏸️ Pausar música";
-      mostrarToast("🎵 Música ativada!");
-    } else {
-      musica.pause();
-      btnMusica.innerText = "▶️ Tocar música";
-      mostrarToast("⏸️ Música pausada!");
-    }
-  };
-
-  volumeControl.addEventListener("input", () => {
-    musica.volume = volumeControl.value;
-  });
-});
