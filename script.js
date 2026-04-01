@@ -231,7 +231,7 @@ function toggleMusica() {
 
   if (!musica || !btnMusica || !volumeControl) return;
 
-  musica.volume = volumeControl.value;
+musica.volume = 0.5; = volumeControl.value;
 
   if (musica.paused) {
     musica.play().then(() => {
