@@ -231,11 +231,13 @@ function toggleMusica() {
   musica.volume = volumeControl.value || 0.5;
 
   if (musica.paused) {
+    musica.muted = false;
+
     musica.play().then(() => {
       btnMusica.innerText = "⏸️ Pausar música";
       mostrarToast("🎵 Música ativada!");
     }).catch(() => {
-      alert("Clique novamente para ativar o áudio 🔊");
+      mostrarToast("🔊 Clique novamente pra liberar o som");
     });
 
   } else {
