@@ -220,6 +220,7 @@ function limpar() {
 /* =========================
    PLAYER DE MÚSICA
 ========================= */
+
 function toggleMusica() {
   const musica = document.getElementById("musica");
   const btnMusica = document.getElementById("btn-musica");
@@ -233,8 +234,7 @@ function toggleMusica() {
     musica.play().then(() => {
       btnMusica.innerText = "⏸️ Pausar música";
       mostrarToast("🎵 Música ativada!");
-    }).catch(err => {
-      console.log("Erro:", err);
+    }).catch(() => {
       alert("Clique novamente para ativar o áudio 🔊");
     });
 
